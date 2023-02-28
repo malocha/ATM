@@ -2,8 +2,6 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
-        {
             public class cardHolder
         {
             String cardNum;
@@ -11,7 +9,7 @@
             String firstName;
             String lastName;
             double balance;
-        
+
             public cardHolder(String cardNum, int pin, String firstName, String lastName, double balance)
             {
                 this.cardNum = cardNum;
@@ -21,12 +19,12 @@
                 this.balance = balance;
             }
 
-            public String getNum() 
-            { 
+            public String getNum()
+            {
                 return cardNum;
-            } 
-            public int getPin() 
-            { 
+            }
+            public int getPin()
+            {
                 return pin;
             }
 
@@ -37,7 +35,7 @@
 
             public String getLastName()
             {
-                return lastName;   
+                return lastName;
             }
 
             public double getBalance()
@@ -53,18 +51,18 @@
             public void setPin(int newPin)
             { pin = newPin; }
 
-            public void setFirstName(String newFirstName) 
-            { 
-                firstName = newFirstName; 
+            public void setFirstName(String newFirstName)
+            {
+                firstName = newFirstName;
             }
-            public void setLastName(String newLastName) 
-            { 
-                lastName = newLastName; 
-            } 
+            public void setLastName(String newLastName)
+            {
+                lastName = newLastName;
+            }
 
             public void setBalance(double newBalance)
             {
-                balance = newBalance;   
+                balance = newBalance;
             }
 
             public static void Main(String[] args)
@@ -80,9 +78,9 @@
 
                 void deposit(cardHolder currentUser)
                 {
-                    Console.WriteLine("How mych $$ would you like to deposit? ");
+                    Console.WriteLine("How much $$ would you like to deposit? ");
                     double deposit = Double.Parse(Console.ReadLine());
-                    currentUser.setBalance(deposit);
+                    currentUser.setBalance(currentUser.getBalance() + deposit);
                     Console.WriteLine("Thank you for your $$. Your new balance is: " + currentUser.getBalance());
                 }
 
@@ -91,13 +89,13 @@
                     Console.WriteLine("How much $$ would you like to withdraw: ");
                     double withdrawal = Double.Parse(Console.ReadLine());
                     //Check if the user has enough money
-                    if(currentUser.getBalance() > withdrawal)
+                    if (currentUser.getBalance() < withdrawal)
                     {
                         Console.WriteLine("Insufficient balance :(");
                     }
                     else
                     {
-                        
+
                         currentUser.setBalance(currentUser.getBalance() - withdrawal);
                         Console.WriteLine("You're good to go! Thank you :)");
                     }
@@ -121,7 +119,7 @@
                 String debitCardNum = "";
                 cardHolder currentUser;
 
-                while(true)
+                while (true)
                 {
                     try
                     {
@@ -134,9 +132,43 @@
                     catch { Console.WriteLine("Card not recognized. Please try again"); }
 
                 }
-            }
-        }
 
-        }
+                Console.WriteLine("Please enter your pin: ");
+                int userPin = 0;
+                while (true)
+                {
+                    try
+                    {
+                        userPin = int.Parse(Console.ReadLine());
+                        if (currentUser.getPin() == userPin) { break; }
+                        else { Console.WriteLine("Incorrect pin. Please try again"); }
+                    }
+                    catch { Console.WriteLine("Incorrect pin. Please try again"); }
+
+                }
+
+                Console.WriteLine("Welcome " + currentUser.getFirstName() + " :)");
+                int option = 0;
+                do
+                {
+                    printOptions();
+                    try
+                    {
+                        option = int.Parse(Console.ReadLine());
+                    }
+                    catch { }
+                    if (option == 1) { deposit(currentUser); }
+                    else if (option == 2) { withdraw(currentUser); }
+                    else if (option == 3) { balance(currentUser); }
+                    else if (option == 4) { break; }
+                    else { option = 0; }
+                }
+                while (option != 4);
+                Console.WriteLine("Thank you! Have a nice day :)");
+            
+            }
+
+        } 
     }
+}
 
